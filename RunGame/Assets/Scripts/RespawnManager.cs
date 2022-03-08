@@ -18,13 +18,17 @@ public class RespawnManager : MonoBehaviour
         for (int i = 0; i < Mobs.Length; i++)
         {
             // MobPool List에 추가.
-            MobPool.Add(CreatObj(Mobs[i], transform)); 
+            MobPool.Add(CreatObj(Mobs[i], transform));
         }
     }
 
+
     //코르틴을 사용해서 정해진 시간마다 리스트에 장애물을 한개를 랜덤으로 뽑아 활성화. /22.03.08 by 승주
     //Random.Range(최소, 최대); 최소~최대 사이의 임의 수를 반환. /22.03.08 by 승주
-
+    IEnumerator CreateMob()
+    {
+        while(true)
+    }
 
     //게임 오브젝트를 반환형으로 같는 CreateObj로 만들어 주기. /22.03.08 by 승주
     GameObject CreatObj(GameObject obj, Transform parent)
