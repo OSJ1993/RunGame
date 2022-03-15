@@ -39,9 +39,10 @@ public class RespawnManager : MonoBehaviour
         // while 으로 반복 실행. /22.03.15 by승주
         while (true)
         {
-            //Random.Range(최소, 최대); 최소~최대 사이의 임의 수를 활성화. /22.03.08 by 승주
-            MobPool[Random.Range(0, MobPool.Count)].SetActive(true);
+            //임의 수를 활성화. /22.03.08 by 승주
+            MobPool[DeactiveMob()].SetActive(true);
 
+            //Random.Range(최소, 최대); 최소~최대
             //WaitForSeconds는 괄호 안에 숫자 만큼 기다렸다가 실행. /22.03.15 by승주
             yield return new WaitForSeconds(Random.Range(1f, 3f));
         }
@@ -52,16 +53,19 @@ public class RespawnManager : MonoBehaviour
     {
         List<int> num = new List<int>();
 
-        //MobPool의 크기만큼 반복하면서 비활성화 되어있는 찾아 순번을 List에 추가
-        for(int i = 0; i < MobPool.Count; i++)
+        //MobPool의 크기만큼 반복하면서 비활성화 되어있는 찾아 순번을 List에 추가 /22.03.15 by 승주
+        for (int i = 0; i < MobPool.Count; i++)
         {
             if (!MobPool[i].activeSelf)
                 num.Add(i);
         }
+
         int x = 0;
-        
-       //x=num
-            return;
+
+        //그리고 List값이 0보다 크다면 정수형 List에서 임의 수 한개를 골라 반환. /22.03.15 by 승주
+        if(num.Count!=0)
+        x = num[Random.Range(0, num.Count)];
+            return x;
     }
 
     //게임 오브젝트를 반환형으로 같는 CreateObj로 만들어 주기. /22.03.08 by 승주
