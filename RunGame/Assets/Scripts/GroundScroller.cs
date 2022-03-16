@@ -10,10 +10,16 @@ public class GroundScroller : MonoBehaviour
 
     public float speed;
 
+            
+
     void Start()
     {
         temp = tiles[0];
+        
+
     }
+
+          
 
     SpriteRenderer temp;
 
