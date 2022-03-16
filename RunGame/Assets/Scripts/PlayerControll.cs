@@ -20,13 +20,16 @@ public class PlayerControll : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-     
+
     void Update()
     {
-        animator.SetBool("Run",true);
+        if (GameManager.instance.isPlay)
+            animator.SetBool("Run", true);
+        else
+            animator.SetBool("Run", false);
 
         //화면이 터치 됬을 때 점프 구현. 화면의 터치 여부는 GetMouseButtonDown 함수 이용  /22.03.07 by 승주  
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && GameManager.instance.isPlay)
         {
             // 터치가 이루어 지면 bool isJump를 true로 바꾸어 실행./22.03.07 by 승주
             isJump = true;
@@ -57,6 +60,17 @@ public class PlayerControll : MonoBehaviour
             {
                 transform.position = Vector2.MoveTowards(transform.position, startPosition, jumpSpeed * Time.deltaTime);
             }
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        //장애물과 충돌하면 GameManager에 게임오버 메소드를 호출 /22.03.16 by 승주.
+        if (collision.CompareTag("Mob"))
+        {
+            GameManager.instance.Gameover();
+
+            
         }
     }
 }

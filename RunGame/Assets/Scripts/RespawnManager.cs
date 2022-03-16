@@ -29,15 +29,34 @@ public class RespawnManager : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(CreateMob());
+        GameManager.instance.onPlay += PlayGame;
+
+    }
+
+    void PlayGame(bool isplay)
+    {
+        if (isplay)
+        {
+            //게임 다시 시작 시 모든 장애물 비활성화. /22.03.16 by승주
+            for (int i = 0; i < MobPool.Count; i++)
+            {
+                if (MobPool[i].activeSelf)
+                    MobPool[i].SetActive(false);
+            }
+            StartCoroutine(CreateMob());
+        }
+        else
+            StopAllCoroutines();
     }
 
 
     //코르틴을 사용해서 정해진 시간마다 리스트에 장애물을 한개를 랜덤으로 뽑아 활성화. /22.03.08 by 승주
     IEnumerator CreateMob()
     {
+        yield return new WaitForSeconds(0.5f);
+
         // while 으로 반복 실행. /22.03.15 by승주
-        while (true)
+        while (GameManager.instance.isPlay)
         {
             //임의 수를 활성화. /22.03.08 by 승주
             MobPool[DeactiveMob()].SetActive(true);
@@ -63,9 +82,9 @@ public class RespawnManager : MonoBehaviour
         int x = 0;
 
         //그리고 List값이 0보다 크다면 정수형 List에서 임의 수 한개를 골라 반환. /22.03.15 by 승주
-        if(num.Count!=0)
-        x = num[Random.Range(0, num.Count)];
-            return x;
+        if (num.Count > 0)
+            x = num[Random.Range(0, num.Count)];
+        return x;
     }
 
     //게임 오브젝트를 반환형으로 같는 CreateObj로 만들어 주기. /22.03.08 by 승주
