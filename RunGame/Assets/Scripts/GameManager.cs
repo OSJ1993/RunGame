@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         //싱클톤패턴 /22.03.16 by승주
-        if(instance != null)
+        if (instance != null)
         {
             Destroy(gameObject);
             return;
@@ -24,9 +24,23 @@ public class GameManager : MonoBehaviour
     public OnPlay onPlay;
 
     //실수형 변수를 하나 만들고 그라운드와 장애물 스피드를 이 변수를 통해서 조절. /22.03.16 by승주.
-    public float gameSpeed=1;
+    public float gameSpeed = 1;
     public bool isPlay = false;
     public GameObject playBtn;
+
+    public int score = 0;
+
+    //코루틴과
+    IEnumerator AddScore()
+    {
+        // yield문을 이용해 게임을 플레이중이라면 0.1초마다 스코어를 1씩 더함. //22.03.18 by승주
+        while (isPlay)
+        {
+            score++;
+            yield return new WaitForSeconds(0.1f);
+
+        }
+    }
 
     //버튼이 클릭 될 때 호출할 메소드 생성./22.03.16 by승주
     public void playBtnClick()
